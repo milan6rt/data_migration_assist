@@ -1,10 +1,12 @@
 # Data Migration Quality Check Tool
 
-A Streamlit-based application for comparing data quality between PostgreSQL (on-premises) and Snowflake (cloud) databases during cloud migration projects.
+A Streamlit-based application for comparing data quality between databases during cloud migration projects. Supports PostgreSQL, Microsoft Fabric, and Snowflake.
 
 ## Features
 
-✅ **Database & Schema Selection** - Independent selection for PostgreSQL and Snowflake
+✅ **Flexible Source Selection** - Choose PostgreSQL or Microsoft Fabric as source
+✅ **Flexible Target Selection** - Choose Snowflake or Microsoft Fabric as target
+✅ **Database & Schema Selection** - Independent selection for all databases
 ✅ **Table Comparison** - Identify common tables and schema differences
 ✅ **Row Count Validation** - Ensure data completeness
 ✅ **Schema Structure Comparison** - Verify column counts and data types
@@ -39,6 +41,12 @@ cp credentials/.env.target.example credentials/.env.target
 # Edit credentials/.env.target with your Snowflake credentials
 ```
 
+**Microsoft Fabric (Source or Target):**
+```bash
+cp credentials/.env.fabric.example credentials/.env.fabric
+# Edit credentials/.env.fabric with your Fabric credentials
+```
+
 ### 4. Set Up Test Data
 ```bash
 # PostgreSQL
@@ -67,7 +75,8 @@ data_migration_assist/
 ├── app.py                          # Main Streamlit application
 ├── config/
 │   ├── postgresql_config.py        # PostgreSQL connection handler
-│   └── snowflake_config.py         # Snowflake connection handler
+│   ├── snowflake_config.py         # Snowflake connection handler
+│   └── fabric_config.py            # Microsoft Fabric connection handler
 ├── scripts/
 │   ├── comparator.py               # Row count comparison logic
 │   ├── data_fetcher.py             # Data retrieval functions
@@ -76,7 +85,8 @@ data_migration_assist/
 │   └── setup_snowflake.sql         # Snowflake test data setup
 ├── credentials/
 │   ├── .env.source.example         # Source (PostgreSQL) credentials template
-│   └── .env.target.example         # Target (Snowflake) credentials template
+│   ├── .env.target.example         # Target (Snowflake) credentials template
+│   └── .env.fabric.example         # Microsoft Fabric credentials template
 ├── requirements.txt                # Python dependencies
 ├── SETUP_GUIDE.md                  # Detailed setup documentation
 └── QUICK_START.md                  # Quick reference guide
@@ -92,10 +102,18 @@ data_migration_assist/
 ## Technology Stack
 
 - **Frontend**: Streamlit
-- **Databases**: PostgreSQL, Snowflake
+- **Databases**: PostgreSQL, Microsoft Fabric, Snowflake
 - **Data Processing**: Pandas
 - **Visualization**: Plotly
 - **Reporting**: XlsxWriter
+- **Database Drivers**: psycopg2 (PostgreSQL), pyodbc (Fabric), snowflake-connector-python (Snowflake)
+
+## Supported Comparison Scenarios
+
+- **PostgreSQL → Snowflake** (original functionality)
+- **PostgreSQL → Fabric** (new)
+- **Fabric → Snowflake** (new)
+- **Fabric → Fabric** (new, compare across Fabric databases)
 
 ## Security Notes
 
@@ -103,6 +121,7 @@ data_migration_assist/
 
 - `credentials/.env.source` - Contains source (PostgreSQL) credentials (gitignored)
 - `credentials/.env.target` - Contains target (Snowflake) credentials (gitignored)
+- `credentials/.env.fabric` - Contains Microsoft Fabric credentials (gitignored)
 - Use the `.example` files as templates
 
 ## Contributing

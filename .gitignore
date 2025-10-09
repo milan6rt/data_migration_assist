@@ -3,6 +3,7 @@
 .env
 credentials/.env.source
 credentials/.env.target
+credentials/.env.fabric
 
 # Python
 __pycache__/
